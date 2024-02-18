@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react'
 const Page = () => {
   const [allProducts, setAllProducts] = useState([])
   const [isLoaded, setIsLoaded] = useState(false)
-  const [currentViewingMode, setcurrentViewingMode] = useState('all')
+  const [currentViewingMode, setcurrentViewingMode] = useState('')
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -22,7 +22,7 @@ const Page = () => {
   useEffect(()=>{
     const intervalId = setInterval(() => {
       setcurrentViewingMode(localStorage.getItem('viewingMode'))
-    }, 500);
+    }, 500)
 
     return ()=>clearInterval(intervalId)
 
@@ -94,25 +94,44 @@ const Page = () => {
   }
   
   return (
-    <div className='h-auto flex flex-wrap gap-5 w-full p-10 text-black justify-evenly bg-[#C6BC9C]'>
-      {(()=>{
-        if (isLoaded) {
-          switch (currentViewingMode) {
-            case 'all':
-              return (cardElements)
-              break;
-            case 'pending':
-              return (pendingElements)
-              break
-            case 'approved':
-              return (approvedElements)
-              break
-          }
-        } else{
-          return(skeletons)
+    <>
+      <h1 className='text-2xl font-mono py-4 font-bold bg-[#C6BC9C] text-black text-center'>
+        {
+          (()=>{
+            switch (currentViewingMode){
+              case 'all':
+                return 'All your products'
+                break
+              case 'pending':
+                return 'Pending Approval'
+                break
+              case 'approved':
+                return 'Approved Drugs'
+                break
+            } 
+          })()
         }
-      })()}
-    </div>
+      </h1>
+      <div className='h-auto flex flex-wrap gap-5 w-full p-10 text-black justify-evenly bg-[#C6BC9C]'>
+        {(()=>{
+          if (isLoaded) {
+            switch (currentViewingMode) {
+              case 'all':
+                return (cardElements)
+                break;
+              case 'pending':
+                return (pendingElements)
+                break
+              case 'approved':
+                return (approvedElements)
+                break
+            }
+          } else{
+            return(skeletons)
+          }
+        })()}
+      </div>
+    </>
   )
 }
 

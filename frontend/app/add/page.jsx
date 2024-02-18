@@ -1,9 +1,9 @@
 'use client'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 
 const Page = () => {
   const [drugName, setDrugName] = useState('')
-  const [ingredientsArray, setingredientsArray] = useState([])
+  const ingredientsArray = useRef([])
   const [currentIngName, setCurrentIngName] = useState('')
   const [currentIngredientComposition, setCurrentIngredientComposition] = useState(0)
   const [currentCompositionType, setCurrentCompositionType] = useState('')
@@ -23,12 +23,16 @@ const Page = () => {
         <option>mg</option>
         <option>%age</option>
       </select>
+      <div className='tooltip' data-tip="Atleast one ingredient required">
+        <button className='btn btn-error' disabled="disabled">
+          Remove
+        </button>
+      </div>
     </div>   
   ])
 
 
   // Step 2: Function to add a new child element
-  useEffect(()=>{
     const addIngredient = () => {
       setCurrentCompositionType('')
       setCurrentIngredientComposition(0)
@@ -50,21 +54,17 @@ const Page = () => {
           <option>mg</option>
           <option>%age</option>
         </select>
+        <button className='btn btn-error' onClick={()=>setChildElements(prevArr => prevArr.filter((_, index)=> index!=(childElements.length)))}>
+          Remove
+        </button>
       </div>
   
       setChildElements([...childElements, newChild]);
       console.log("added new child")
     }
 
-    document.getElementById('addIngredient').addEventListener('click', addIngredient)
-
-    return () => {
-      document.removeEventListener('click', addIngredient);
-    }
-
-  }, [currentIngName, currentCompositionType, currentIngredientComposition])
-
   const submitForApproval = () => {
+
     const newIngredient = {
       'ingredientName': currentIngName,
       'compositionValue': currentIngredientComposition,
@@ -74,7 +74,7 @@ const Page = () => {
     console.log('current: ', newIngredient)
     console.log('current ingredient list: ', ingredientsArray)
 
-    setingredientsArray([...ingredientsArray, newIngredient])
+    ingredientsArray.current = [...ingredientsArray.current, newIngredient]
 
     console.log('all ingredients, ', ingredientsArray)
 
@@ -93,7 +93,7 @@ const Page = () => {
         </div>
         {childElements}
         <div className='flex flex-row w-full justify-end gap-2'>
-          <button className='btn btn-accent' id='addIngredient'>Add ingredient</button>
+          <button className='btn btn-accent' id='addIngredient' onClick={addIngredient}>Add ingredient</button>
           <button className='btn btn-primary' onClick={submitForApproval}>Submit for approval</button>
         </div>
       </div>

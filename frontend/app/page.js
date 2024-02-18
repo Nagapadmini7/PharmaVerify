@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="hero min-h-screen bg-base-200">
+    <div className="hero min-h-screen bg-base-200 text-black">
       <div className="hero-content text-center">
         <div className="max-w-xl">
           <h1 className="text-5xl font-bold">GOOGLE SOLUTIONS CHALLENGE</h1>
