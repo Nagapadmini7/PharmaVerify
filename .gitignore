@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 *.iml
 .gradle
 /local.properties
@@ -13,3 +14,9 @@
 .externalNativeBuild
 .cxx
 local.properties
+=======
+/frontend/node_modules
+
+/frontend/.next
+
+>>>>>>> 86ff01fbc4eabe36ab0c766572f70a6a091d10c8
